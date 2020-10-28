@@ -1,0 +1,42 @@
+#!/bin/bash
+#Erstellen
+
+
+
+
+pveum groupadd Student
+for ((i=1;i<=5;i++)) do
+
+        if [ $i -lt 10 ]
+                then
+                        echo pool:p_User0$i:::local-lvm: >> /etc/pve/user.cfg
+                        pveum groupadd g_User0$i
+                        pveum useradd User0$i@pve -group g_User0$i -password <passwort>
+                        pveum aclmod /pool/p_User0$i -group g_User0$i -role PVEVMAdmin,PVEPoolAdmin
+                        echo "User0"$i" wurde hinzugefügt"
+                else
+                        echo pool:p_User$i:::local-lvm: >> /etc/pve/user.cfg
+                        pveum groupadd g_User$i
+                        pveum useradd User$i@pve -group g_User$i -password <passwort>
+                        pveum aclmod /pool/p_User$i -group g_User$i -role PVEVMAdmin,PVEPoolAdmin
+                        echo "User"$i" wurde hinzugefügt"
+        fi
+done
+
+
+
+
+
+#!/bin/bash
+#Löschen
+
+#for ((i=1;i<=40;i++)) do
+#	pveum useradd User$i@pve
+#	echo "User"$i" wurde gelöscht"
+#done
+
+
+#Links
+#https://pve.proxmox.com/pve-docs/chapter-pveum.html#_privileges
+#https://wiki.ubuntuusers.de/Shell/Bash-Skripting-Guide_f%C3%BCr_Anf%C3%A4nger/
+#https://wiki.ubuntuusers.de/Rechte/
