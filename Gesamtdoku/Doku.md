@@ -54,23 +54,61 @@ Zugleich sind die Server auch an den KVM-Switch angebunden. Dieser ist auch mit 
 
 ### Server
 #### Standardinstallation Proxmox
+Zunächst einen bootfähigen Stick erstellen.
 
-##### Sonstiges
+Dann den Stick vorm hochfahren einstecken und Powerbutton drücken.
+- F12 drücken um in das Bootmenü zu gelangen, hier dann Stick auswählen (zum laden vom Stick)
+- Dann Proxmox installieren:
+Anleitung:
+	1. Install Proxmox VE, mit Enter bestätigen
+	1. EULA akzeptieren -> next
+	1. Proxmox Virtualization Environment (PVE) -> next.
+	1. Location and Time Zone Selection: Ausfüllen Land (Germany) (der Rest zieht sich dann selber, sonst Time Zone (Europe/Berlin))
+	1. Keyboard Layout German -> next.
+	1. Administration Passwort and E-Mail Address: Dann Passwort doppelt eingeben. Und EMail-Adresse von invalid auf valid stellen.
+Management Network configuration: next
+Summary: Install
+Installation successful ->reboot
+dann Stick ziehen
+
+
 BIOS: F2
 Bootmenü: F12
 
 ##### Netzwerkkonfiguration
+Dann
 * IP, Gateway und DNS-Server werden bei der Installation eingerichtet
-  * falls nicht /etc/network/interfaces und /etc/hosts bearbeiten
-    * [Ubuntu-Users](https://wiki.ubuntuusers.de/interfaces/)
-  * Unter "VM" -> System -> DNS lassen sich die DNS Einstellungen auch nochmal anpassen
 
-#####Lizenzerinnerung ausblenden
+Dafür geht man zuerst in die WebGUI und gibt dort die Adresse die auf dem Bildschirm des Servers erscheint ein (z.B. https://192.168.100.1:8006)
+
+  * falls nicht funktioniert
+	`nano /etc/network/interfaces` und `nano /etc/hosts` bearbeiten
+
+	* danach `init 6`
+
+
+Bei Problemen zu:
+    * [Ubuntu-Users](https://wiki.ubuntuusers.de/interfaces/)
+
+
+- Unter "VM" -> System -> DNS lassen sich die DNS Einstellungen auch nochmal anpassen. Note: Dann unter Datacenter  das VM auswählen, dann unter Reiter System DNS auswählen
+
+##### Lizenzerinnerung ausblenden
 `wget https://raw.githubusercontent.com/foundObjects/pve-nag-buster/master/install.sh && bash install.sh`
 
-`/etc/apt/sources.list.d/pve-enterprise.list`
+Wenn dass nicht funktioniert auf den [Link](https://github.com/foundObjects/pve-nag-buster/blob/master/install.sh) gehen und dort den Text kopieren. Dann nano install.sh und den Text dort einfügen.Speichern. Dann chmod +x install.sh.
 
-Enterprise-Repository mit __#__ auskommentieren
+Proxmox bezieht über `apt update && upgrade` (nicht eintippen) seine Updates. Da Proxmox nicht lizensiert ist, muss das Enterprise Reposiory auskommentiert werden.
+Falls `/etc/apt/sources.list.d/pve-enterprise.list` noch nicht zu `/pve-enterprise.disabled` geändert ist, muss das Enterprise-Repository mit __#__ auskommentiert werden.
+
+Ablauf:
+1. navigieren zu Verzeichnis
+	-`cd /etc/apt/sources.list.d/`
+1. mit `ls` Inhalt des Verzeichnis prüfen
+1.
+	- falls dort _pve-enterprise.disabled_ steht muss nichts gemacht werden.
+	- falls dort _pve-enterprise.list_ steht mit `nano /etc/apt/sources.list.d/pve-enterprise.list` enterprise Repository mit __#__ auskommentieren.
+
 
 ### Fileserver
 
@@ -193,20 +231,33 @@ Dieses reagiert aber nicht auf einen Ping.
 ###Startup-Script und Reset-Script einfügen und ausführen
 Das Startup_Script.sh ist dafür zuständig 15 Schüler sowie 2 Lehrer und 2 Admin Accounts an zu legen. Es handelt sich hierbei um ein Bash-Shell-Script welches _copy/paste_ in `/usr/local/bin/` durch den Nutzers __root__ erstellt wird. Es ist hierbei darauf zu achten das die Variablen für die ISOs und den Storage genau wie die hochgeladenen Dateien bezeichnet sind um einen reibungslosen Ablauf des Scripts zu ermöglichen.
 
-1. ISOs hochladen (über WebGUI)
+1. ISOs hochladen
+	- über WebGUI
+	local -> content -> Upload -> select file...
+
+	Alternativ:
+	- mit scp: `scp -r <quelle> user@host:ziel`
+
+	Beispiel:
+	`scp -r C:\Users\Nutzer\Dokumente\ISO\iso root@192.168.137.1:/var/lib/vz/template`
 
 	Dazu gehören:
 	- Ubuntu
 	- Windows
 	- VirtIO
 	- Windows Server
-1. Datein erstellen
+
+1. Dateien erstellen
 	`nano /usr/local/bin/startup_bbsovg.sh`
 	`nano /usr/local/bin/reset_VMs.sh`
-1. Mit Copy/Paste Script kopieren
+
+1. Mit Copy/Paste Skripte im Ordner Scripte kopieren
+Note: In der Datei startup_bbsovg.sh Passwörter hinterlegen.
+
 1. Scripte ausführbar machen
 	`chmod +x /usr/local/bin/startup_bbsovg.sh`
-	`chmod +x /usr/local/bin/reset_VM.sh`
+	`chmod +x /usr/local/bin/reset_VMs.sh`
+
 1. Script Ausführen
 	`startup_bbsovg.sh`
 

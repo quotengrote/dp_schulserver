@@ -10,9 +10,9 @@ export PATH=$PATH:/usr/sbin
 ###########################################################################
 #                   !!!!!local_lvm umbenennen!!!!!                        #
 ###########################################################################
-storage= "local-lvm"
+storage="local-lvm"
 #ISO Variablen
-linux= "ubuntu-20.04.1-desktop-amd64.iso"
+linux="ubuntu-20.04.1-desktop-amd64.iso"
 win="Win10_2004_German_x64.iso"
 winserver="winserver2019.iso"
 virtio="virtio-win-0.1.185.iso"
