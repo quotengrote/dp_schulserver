@@ -9,9 +9,6 @@
 			- [Ethernet-Switch](#ethernet-switch)
 			- [Kabel](#kabel)
 			- [Konsole](#konsole)
-		- [Server](#server)
-			- [Standardinstallation Proxmox](#standardinstallation-proxmox)
-				- [Sonstiges](#sonstiges)
 				- [Netzwerkkonfiguration](#netzwerkkonfiguration)
 				- [Lizenzerinnerung ausblenden](#lizenzerinnerung-ausblenden)
 		- [Fileserver](#fileserver)
@@ -28,7 +25,6 @@
 					- [Eternus DX80](#eternus-dx80)
 					- [Gateway](#gateway)
 					- [Nameserver](#nameserver)
-		- [Startup-Script und Reset-Script einfügen und ausführen](#startup-script-und-reset-script-einfügen-und-ausführen)
 		- [Berechtigungen](#berechtigungen)
 					- [Rollen siehe:](#rollen-siehe)
 		- [Server](#server)
@@ -59,41 +55,6 @@ Zugleich sind die Server auch an den KVM-Switch angebunden. Dieser ist auch mit 
 #### Konsole
 - Fuitsu-Siemens RC23 Rack Console - SN: 947728
 
-### Server
-#### Standardinstallation Proxmox
-Zunächst einen bootfähigen Stick erstellen.
-
-Dann den Stick vorm hochfahren einstecken und Powerbutton drücken.
-- F12 drücken um in das Bootmenü zu gelangen, hier dann Stick auswählen (zum laden vom Stick)
-- Dann Proxmox installieren:
-Anleitung:
-	1. Install Proxmox VE, mit Enter bestätigen
-	1. EULA akzeptieren -> next
-	1. Proxmox Virtualization Environment (PVE) -> next.
-	1. Location and Time Zone Selection: Ausfüllen Land (Germany) (der Rest zieht sich dann selber, sonst Time Zone (Europe/Berlin))
-	1. Keyboard Layout German -> next.
-	1. Administration Passwort and E-Mail Address: Dann Passwort doppelt eingeben. Und EMail-Adresse von invalid auf valid stellen.
-Management Network configuration: next
-Summary: Install
-Installation successful ->reboot
-dann Stick ziehen
-
-
-
-##### Sonstiges
-Zunächst einen bootfähigen Stick erstellen.
-
-Dann den Stick vorm hochfahren einstecken und Powerbutton drücken.
-Dann F12 drücken um in das Bootmenü zu gelangen, hier wird dann der Stick ausgewählt zum laden vom Stick. Dann Proxmoxx installieren. Install Proxmox VE und mit Enter bestätigen und Eula akzeptieren, dann next. Location and Time Zone Selection: Ausfüllen Land (Germany), der Rest zieht sich dann selber (sonst Time Zone (Europe/Berlin), Keyboard Layout German), dann next.
-Administration Password and E-Mail Address: Dann Passwort doppelt eingeben. Und eine EMail eintragen.
-Management Network configuration: Hostname ausdenken auf next
-Summary: Install
-Installation successful ->reboot
-dann Stick ziehen
-
-
-BIOS: F2
-Bootmenü: F12
 
 ##### Netzwerkkonfiguration
 Dann
@@ -234,41 +195,6 @@ Die IPs müssen fest gesetzt werden.
 172.16.16.1
 
 Dieses reagiert aber nicht auf einen Ping.
-
-###Startup-Script und Reset-Script einfügen und ausführen
-Das Startup_Script.sh ist dafür zuständig 15 Schüler sowie 2 Lehrer und 2 Admin Accounts an zu legen. Es handelt sich hierbei um ein Bash-Shell-Script welches _copy/paste_ in `/usr/local/bin/` durch den Nutzers __root__ erstellt wird. Es ist hierbei darauf zu achten das die Variablen für die ISOs und den Storage genau wie die hochgeladenen Dateien bezeichnet sind um einen reibungslosen Ablauf des Scripts zu ermöglichen.
-
-1. ISOs hochladen
-	- über WebGUI
-	local -> content -> Upload -> select file...
-
-	Alternativ:
-	- mit scp: `scp -r <quelle> user@host:ziel`
-
-	Beispiel:
-	`scp -r C:\Users\Nutzer\Dokumente\ISO\iso root@192.168.137.1:/var/lib/vz/template`
-
-	Dazu gehören:
-	- Ubuntu
-	- Windows
-	- VirtIO
-	- Windows Server
-
-1. Dateien erstellen
-	`nano /usr/local/bin/startup_bbsovg.sh`
-	`nano /usr/local/bin/reset_VMs.sh`
-
-1. Mit Copy/Paste Skripte im Ordner Scripte kopieren
-Note: In der Datei startup_bbsovg.sh Passwörter hinterlegen.
-
-1. Scripte ausführbar machen
-	`chmod +x /usr/local/bin/startup_bbsovg.sh`
-	`chmod +x /usr/local/bin/reset_VMs.sh`
-
-1. Script Ausführen
-	`startup_bbsovg.sh`
-
-Das _reset_VMs.sh_ Script wird hierbei vom Lehrer nach erfolgter Stunde ausgeführt damit fertig installierte VMs auf den Startup stand zurück gesetzt werden. Es werden hierbei alle VMs (3 pro Pool bzw Schüleraccount) zurückgesetzt.
 
 ### Berechtigungen
 Jeder Schüler welcher sich bei pve anmelden will nutzt einen der Dummy Nutzernamen (schueler01, schueler02, ... schueler15 ). Die Schüleraccounts werden einer Gruppe __schueler__ welche nur berechtigt ist die eigenen VMs zu starten und eine vorher festgelegte ISO zu installieren.
