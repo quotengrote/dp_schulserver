@@ -1,7 +1,7 @@
 #!/bin/bash
 # Mit diesem Bash-Script werden 15 Schüler-Dummys, 2 Lehrer-Dummys und 2 Admin-Dummys erstellt.
-#Außerdem werden hier für die initiale Konfiguration VMs in den passenden Pools erstell.
-#Passwörter sind gegebenenfalls noch an zu passen.
+#Außerdem werden hier für die initiale Konfiguration VMs in den passenden Pools erstellt.
+#Passwörter sind gegebenenfalls noch anzupassen.
 
 #Wichtig für qm
 export PATH=$PATH:/usr/sbin
