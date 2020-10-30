@@ -1,31 +1,38 @@
 # Dokumentation "Schulserver"
-<!-- TOC depthFrom:3 depthTo:5 withLinks:1 updateOnSave:1 orderedList:0 -->
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Übersicht](#übersicht)
-	- [Server](#server)
-	- [Storage](#storage)
-	- [KVM-Switch](#kvm-switch)
-	- [Ethernet-Switch](#ethernet-switch)
-	- [Kabel](#kabel)
-	- [Konsole](#konsole)
-- [Server](#server)
-	- [Standardinstallation Proxmox](#standardinstallation-proxmox)
-		- [RAID-Controller einrichten](#raid-controller-einrichten)
-		- [Sonstiges](#sonstiges)
-		- [Netzwerkkonfiguration](#netzwerkkonfiguration)
-		- [Lizenzerinnerung ausblenden](#lizenzerinnerung-ausblenden)
-- [Fileserver](#fileserver)
-	- [Storage](#storage)
-	- [Logische Verkabelung](#logische-verkabelung)
-	- [Aufbau Speichersystem](#aufbau-speichersystem)
-	- [WWN des HBA anzeigen](#wwn-des-hba-anzeigen)
-- [Netzwerk](#netzwerk)
-	- [Logische Netzstruktur](#logische-netzstruktur)
-	- [Verkabelung](#verkabelung)
-	- [IPs](#ips)
-- [Startup Script ausführen](#startup-script-ausführen)
-- [Berechtigungen](#berechtigungen)
-- [Server](#server)
+- [Dokumentation "Schulserver"](#dokumentation-schulserver)
+		- [Übersicht](#übersicht)
+			- [Server](#server)
+			- [Storage](#storage)
+			- [KVM-Switch](#kvm-switch)
+			- [Ethernet-Switch](#ethernet-switch)
+			- [Kabel](#kabel)
+			- [Konsole](#konsole)
+		- [Server](#server)
+			- [Standardinstallation Proxmox](#standardinstallation-proxmox)
+				- [Sonstiges](#sonstiges)
+				- [Netzwerkkonfiguration](#netzwerkkonfiguration)
+				- [Lizenzerinnerung ausblenden](#lizenzerinnerung-ausblenden)
+		- [Fileserver](#fileserver)
+			- [Storage](#storage)
+			- [Logische Verkabelung](#logische-verkabelung)
+			- [Aufbau Speichersystem](#aufbau-speichersystem)
+		- [Netzwerk](#netzwerk)
+			- [Logische Netzstruktur](#logische-netzstruktur)
+			- [Verkabelung](#verkabelung)
+			- [IPs](#ips)
+					- [KVM](#kvm)
+					- [Server 0](#server-0)
+					- [Server 1](#server-1)
+					- [Eternus DX80](#eternus-dx80)
+					- [Gateway](#gateway)
+					- [Nameserver](#nameserver)
+		- [Startup-Script und Reset-Script einfügen und ausführen](#startup-script-und-reset-script-einfügen-und-ausführen)
+		- [Berechtigungen](#berechtigungen)
+					- [Rollen siehe:](#rollen-siehe)
+		- [Server](#server)
+					- [Siehe auch:](#siehe-auch)
 
 <!-- /TOC -->
 
@@ -72,6 +79,19 @@ Installation successful ->reboot
 dann Stick ziehen
 
 
+
+##### Sonstiges
+Zunächst einen bootfähigen Stick erstellen.
+
+Dann den Stick vorm hochfahren einstecken und Powerbutton drücken.
+Dann F12 drücken um in das Bootmenü zu gelangen, hier wird dann der Stick ausgewählt zum laden vom Stick. Dann Proxmoxx installieren. Install Proxmox VE und mit Enter bestätigen und Eula akzeptieren, dann next. Location and Time Zone Selection: Ausfüllen Land (Germany), der Rest zieht sich dann selber (sonst Time Zone (Europe/Berlin), Keyboard Layout German), dann next.
+Administration Password and E-Mail Address: Dann Passwort doppelt eingeben. Und eine EMail eintragen.
+Management Network configuration: Hostname ausdenken auf next
+Summary: Install
+Installation successful ->reboot
+dann Stick ziehen
+
+
 BIOS: F2
 Bootmenü: F12
 
@@ -95,19 +115,6 @@ Bei Problemen zu:
 
 ##### Lizenzerinnerung ausblenden
 `wget https://raw.githubusercontent.com/foundObjects/pve-nag-buster/master/install.sh && bash install.sh`
-
-Wenn dass nicht funktioniert auf den [Link](https://github.com/foundObjects/pve-nag-buster/blob/master/install.sh) gehen und dort den Text kopieren. Dann nano install.sh und den Text dort einfügen.Speichern. Dann chmod +x install.sh.
-
-Proxmox bezieht über `apt update && upgrade` (nicht eintippen) seine Updates. Da Proxmox nicht lizensiert ist, muss das Enterprise Reposiory auskommentiert werden.
-Falls `/etc/apt/sources.list.d/pve-enterprise.list` noch nicht zu `/pve-enterprise.disabled` geändert ist, muss das Enterprise-Repository mit __#__ auskommentiert werden.
-
-Ablauf:
-1. navigieren zu Verzeichnis
-	-`cd /etc/apt/sources.list.d/`
-1. mit `ls` Inhalt des Verzeichnis prüfen
-1.
-	- falls dort _pve-enterprise.disabled_ steht muss nichts gemacht werden.
-	- falls dort _pve-enterprise.list_ steht mit `nano /etc/apt/sources.list.d/pve-enterprise.list` enterprise Repository mit __#__ auskommentieren.
 
 
 ### Fileserver
