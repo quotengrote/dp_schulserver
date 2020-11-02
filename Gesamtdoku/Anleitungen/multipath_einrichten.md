@@ -54,7 +54,7 @@ Die Eternus DX80 ist ein Plattenspeichersystem. Die Eternus DX80 ist hochverfüg
 
 
   - Siehe auch [Multipaths Device Configuration Attributes](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/DM_Multipath/config_file_multipath.html)
-  - Option "find_multipaths = yes" heißt das nur Geräte verwendet werden die schon in `wwids` stehen.
+  - Option `find_multipaths = yes` heißt das nur Geräte verwendet werden die schon in `wwids` stehen.
 
 3. "Blacklisten" der nicht zu verwendenen Laufwerke
 > nano /etc/multipath.conf
@@ -156,14 +156,14 @@ Dieser verhindert das PV nach dem Neustart von den `/dev/sd*` verwendet werden, 
 Werden nur die relativen Disk-Identifier genutzt kann ein PFadverlust nicht abgefangen werden da die Daten an Multipath vorbeilaufen.
 
 ##### Mögliche Lösung:
-<code>
-/etc/lvm/lvm.conf
-        global_filter = [ "r|/dev/zd.*|", "r|/dev/mapper/pve-.*|" "r|/dev/mapper/.*-(vm|base)--[0-9]+--disk--[0-9]+|"]
 
-        filter = [  "a|/dev/mapper/.*|", "a|/dev/sda.*|", "a|/dev/sdb.*|","r/.*/"  ]
+  > nano /etc/lvm/lvm.conf
 
-</code>
-srv1 prüfen wg lvm/mpio
+```
+global_filter = [ "r|/dev/zd.*|", "r|/dev/mapper/pve-.*|" "r|/dev/mapper/.*-(vm|base)--[0-9]+--disk--[0-9]+|"]
+filter = [  "a|/dev/mapper/.*|", "a|/dev/sda.*|", "a|/dev/sdb.*|","r/.*/"  ]
+```
+
 #### LVM erstellen (nur bei PVE)
 - PV: `pvcreate /dev/mapper/mpathX`
 - VG: `vgcreate <Bezeichnung> /dev/mapper/mpathX`
@@ -180,10 +180,3 @@ Befehele zu vg und pv: [Befehle](http://landoflinux.com/linux_lvm_command_exampl
   > dd if=/dev/zero of=/dev/mapper/mpathX bs=512 count=1 conv=notrunc
 
   > init 6
-
-
-  }
-
-  }
-
-  }

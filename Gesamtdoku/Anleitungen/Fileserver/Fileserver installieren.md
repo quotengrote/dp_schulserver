@@ -25,5 +25,5 @@
 ## Samba konfigurieren
 1. Freigabeordner erstellen und in Vorlage: smb.conf eintragen
 12. `mv /etc/samba/smb.conf /etc/samba/smb.conf.backup`
-12. smb.conf unter "/etc/samba/smb.conf" abspeichern
+12. smb.conf unter `/etc/samba/smb.conf` abspeichern
 12. `sudo systemctl restart smbd`

@@ -69,10 +69,10 @@ Dafür geht man zuerst in die WebGUI und gibt dort die Adresse die auf dem Bilds
 
 
 Bei Problemen zu:
-    * [Ubuntu-Users](https://wiki.ubuntuusers.de/interfaces/)
+  * [Ubuntu-Users](https://wiki.ubuntuusers.de/interfaces/)
 
 
-- Unter "VM" -> System -> DNS lassen sich die DNS Einstellungen auch nochmal anpassen. Note: Dann unter Datacenter  das VM auswählen, dann unter Reiter System DNS auswählen
+- Unter VM -> System -> DNS lassen sich die DNS Einstellungen auch nochmal anpassen. Note: Dann unter Datacenter  das VM auswählen, dann unter Reiter System DNS auswählen
 
 ##### Lizenzerinnerung ausblenden
 `wget https://raw.githubusercontent.com/foundObjects/pve-nag-buster/master/install.sh && bash install.sh`
@@ -167,7 +167,7 @@ graph LR
 #### Verkabelung
 ![Verkabelung](./Bilder/Verkabelung.jpg)
 
-[Visio Shape](./zusammenfassen/Verkabelung.vsdx)
+[Visio Shape](./Verkabelung.vsdx)
 
 
 #### IPs
